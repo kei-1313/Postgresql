@@ -2,7 +2,16 @@ import AuthForm from "./component/AuthForm"
 
 const Home = () => { 
 	return (
-		<div>
+		<div
+    className="
+    flex 
+    min-h-screen 
+    items-center
+    justify-center 
+    sm:px-6 
+    lg:px-8"
+  >
+    <div>
       <h1 
         className="
         text-center 
@@ -12,6 +21,7 @@ const Home = () => {
         text-gray-900"
       >ログイン</h1>
       <AuthForm/>
+    </div>
     </div>
 	)
 }
