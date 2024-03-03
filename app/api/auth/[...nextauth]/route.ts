@@ -43,10 +43,7 @@ export const authOptions: AuthOptions = {
           throw new Error('パスワードが正しくありません');
         }
 
-        return {
-          ...user,
-          id: user.id.toString(),
-        }
+        return user
       }
     })
   ],

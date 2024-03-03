@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id             Int            @id @default(autoincrement())
+  id             String @id @default(cuid())
   name           String?
   email          String         @unique
   emailVerified  DateTime?      @map("email_verified")
@@ -28,8 +28,8 @@ model User {
 }
 
 model Account {
-  id                Int     @id @default(autoincrement())
-  userId            Int     @map("user_id")
+  id                String @id @default(cuid())
+  userId            String     @map("user_id")
   type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
@@ -47,8 +47,8 @@ model Account {
 }
 
 model Session {
-  id           Int      @id @default(autoincrement())
-  userId       Int      @map("user_id")
+  id           String @id @default(cuid())
+  userId       String      @map("user_id")
   expires      DateTime
   sessionToken String   @unique // キャメルケースに変更
   accessToken  String   @unique // キャメルケースに変更
@@ -61,12 +61,12 @@ model Session {
 }
 
 model Post {
-  id            Int            @id @default(autoincrement())
+  id            String @id @default(cuid())
   title         String?
   body          String?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  userId        Int? // キャメルケースに統一
+  userId        String? // キャメルケースに統一
   user          User?          @relation(fields: [userId], references: [id])
   favoritePosts FavoritePost[] // キャメルケースに変更
 
@@ -74,9 +74,9 @@ model Post {
 }
 
 model FavoritePost {
-  id        Int      @id @default(autoincrement())
-  userId    Int? // キャメルケースに統一
-  postId    Int? // キャメルケースに統一
+  id        String @id @default(cuid())
+  userId    String? // キャメルケースに統一
+  postId    String? // キャメルケースに統一
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User?    @relation(fields: [userId], references: [id])
