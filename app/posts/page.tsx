@@ -4,9 +4,16 @@ import { signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import PostList from "../component/posts/PostList"
 import Link from "next/link"
+import { useEffect } from "react"
+
 
 
 const Posts = () => {
+  
+  useEffect(() => {
+    
+  },[])
+
 	return (
 		<div>
       <div className="flex justify-end px-10 mt-5 gap-5">

@@ -15,11 +15,20 @@ import {
 
 import { useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import getPostAll from "@/actions/getPostAll"
+// interface PostListProps {
+//   posts: Post[]
+// }
 
-const PostList = () => {
+const PostList = async () => {
   const [isLiked, setIsLiked] = useState(false)
-
+  
   const Icon = isLiked? AiFillHeart : AiOutlineHeart
+
+  const posts = await getPostAll()
+
+  console.log(posts);
+  
 	return (
 		<div className="max-w-[700px] w-full mx-auto mt-10">
         <Table>
