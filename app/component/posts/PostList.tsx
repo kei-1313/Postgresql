@@ -34,8 +34,6 @@ const PostList = () => {
   useEffect(() => {
     getPost()
   },[])
-
-  console.log(posts);
 	return (
 		<div className="max-w-[700px] w-full mx-auto mt-10">
         <Table>
