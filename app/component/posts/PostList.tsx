@@ -17,15 +17,13 @@ import {
 import { useEffect, useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-// interface PostListProps {
-//   posts: Post[]
-// }
-
 const PostList = () => {
   const [isLiked, setIsLiked] = useState(false)
   const [posts, setPosts] = useState<any[]>([])
   
   const Icon = isLiked? AiFillHeart : AiOutlineHeart
+
+  //投稿を取得
   const getPost = async() => {
     const data = await getPostAll()
     setPosts([...data])

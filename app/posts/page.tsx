@@ -1,13 +1,14 @@
-import getPostAll from "@/actions/getPostAll";
+"use client"
+
 import Header from "../component/Header"
 import PostList from "../component/posts/PostList"
+import { useSession } from "next-auth/react";
 
 
 
-const Posts = async () => {
-  // const posts = await getPostAll()
-  // console.log(posts);
-  // console.log("ddd");
+const Posts = () => {
+  const session = useSession()
+  console.log(session);
   
 	return (
 		<div>
