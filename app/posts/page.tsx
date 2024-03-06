@@ -8,8 +8,8 @@ import { useSession } from "next-auth/react";
 
 const Posts = () => {
   const session = useSession()
-  console.log(session);
-  
+  // console.log(session);
+
 	return (
 		<div>
       <Header/>

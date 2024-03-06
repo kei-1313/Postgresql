@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useSession } from "next-auth/react";
 
 
 import { useEffect, useState } from "react";
@@ -20,6 +21,11 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 const PostList = () => {
   const [isLiked, setIsLiked] = useState(false)
   const [posts, setPosts] = useState<any[]>([])
+  const [currentUser, setCurrentUser] = useState<any>({})
+
+  const session = useSession()
+  // console.log(session.data?.user);
+  
   
   const Icon = isLiked? AiFillHeart : AiOutlineHeart
 
@@ -29,9 +35,56 @@ const PostList = () => {
     setPosts([...data])
   }
 
+  const getUser = async() => {
+    const params = session.data?.user
+    if (params) {
+      const queryParams = new URLSearchParams(Object.entries(params).reduce((acc, [key, value]) => {
+        if (value) acc[key] = value;
+        return acc;
+      }, {} as Record<string, string>))
+      
+      const res = await fetch(`/api/user/?${queryParams.toString()}`)
+      const user = await res.json()
+
+      // console.log(user);
+      
+      setCurrentUser({...user})
+    }
+  }
+
   useEffect(() => {
     getPost()
-  },[])
+    if (session.status === "authenticated") {
+      getUser()
+    }
+
+  },[session.status])
+
+  console.log(currentUser);
+  
+
+  const handleLike = async (postId: string, userId: string) => {
+    const data = {
+      userId: userId,
+      postId: postId
+    }
+
+    if(!isLiked) {
+      const res = await fetch("/api/like/", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+    } else {
+
+    }
+  }
+
+  console.log(posts);
+  
+
 	return (
 		<div className="max-w-[700px] w-full mx-auto mt-10">
         <Table>
@@ -54,7 +107,9 @@ const PostList = () => {
                 <TableCell className="text-center"><span>0</span></TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end items-center">
-                    <Icon className=" cursor-pointer" color={"#e0215c"} size={25} />
+                    <button onClick={() => handleLike(post.id, currentUser.id)}>
+                      <Icon  className=" cursor-pointer" color={"#e0215c"} size={25} />
+                    </button>
                   </div>
                 </TableCell>
               </TableRow>
