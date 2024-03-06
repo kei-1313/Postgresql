@@ -60,7 +60,7 @@ const PostList = () => {
 
   },[session.status])
 
-  console.log(currentUser);
+  // console.log(currentUser);
   
 
   const handleLike = async (postId: string, userId: string) => {
@@ -69,20 +69,24 @@ const PostList = () => {
       postId: postId
     }
 
+    console.log(data);
+    
+
     if(!isLiked) {
-      const res = await fetch("/api/like/", {
+      const res = await fetch("/api/likes/", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
       })
+      setIsLiked(true)
     } else {
-
+      setIsLiked(false)
     }
   }
 
-  console.log(posts);
+  // console.log(posts);
   
 
 	return (
