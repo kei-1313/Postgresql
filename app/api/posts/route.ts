@@ -4,7 +4,13 @@ import prisma from "@/app/libs/prismadb"
 //すべての投稿を取得
 export async function GET() {
   try {
-    const posts = await prisma.post.findMany()
+    const posts = await prisma.post.findMany({
+        include: {
+          user: true, 
+          favoritePosts:true
+        }
+      }
+    )
     return Response.json(posts)
   } catch (error) {
     console.error("Failed to fetch posts:", error);

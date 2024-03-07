@@ -39,7 +39,7 @@ const PostList = () => {
     const params = session.data?.user
     if (params) {
       const queryParams = new URLSearchParams(Object.entries(params).reduce((acc, [key, value]) => {
-        if (value) acc[key] = value;
+        if (value) acc[key] = value
         return acc;
       }, {} as Record<string, string>))
       
@@ -69,7 +69,7 @@ const PostList = () => {
       postId: postId
     }
 
-    console.log(data);
+    // console.log(data);
     
 
     if(!isLiked) {
@@ -86,7 +86,7 @@ const PostList = () => {
     }
   }
 
-  // console.log(posts);
+  console.log(posts);
   
 
 	return (
@@ -108,7 +108,7 @@ const PostList = () => {
                 <TableCell className="font-medium">{post.id}</TableCell>
                 <TableCell>{post.title}</TableCell>
                 <TableCell>{post.body}</TableCell>
-                <TableCell className="text-center"><span>0</span></TableCell>
+                <TableCell className="text-center"><span>{post.favoritePosts.length}</span></TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end items-center">
                     <button onClick={() => handleLike(post.id, currentUser.id)}>
