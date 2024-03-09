@@ -25,7 +25,8 @@ const LikeButton:React.FC<LikeButtonProps> = ({postId, userId}) => {
 
       const queryParams = new URLSearchParams(params)
       const data = await fetch(`/api/likes?${queryParams}`)
-      if(data) {
+
+      if(data.status === 200) {
         setIsLiked(true)
       }
     }
@@ -50,6 +51,10 @@ const LikeButton:React.FC<LikeButtonProps> = ({postId, userId}) => {
       })
       setIsLiked(true)
     } else {
+      const queryParams = new URLSearchParams(data)
+      const res = await fetch(`/api/likes/?${queryParams}`,{
+        method: "DELETE"
+      })
       setIsLiked(false)
     }
   }

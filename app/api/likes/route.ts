@@ -18,6 +18,10 @@ export async function GET(request:Request) {
         }
       }
     })
+    
+    if(!likedPost) {
+      return ""
+    }
 
     return NextResponse.json(likedPost)
   } catch (error) {
@@ -44,4 +48,22 @@ export async function POST(request:Request) {
   } else {
     return ""
   }
+}
+
+export async function DELETE(request:Request) {
+  const { searchParams } = new URL(request.url)
+  const userId = searchParams.get("userId") ?? ""
+  const postId = searchParams.get("postId") ?? ""
+
+  //postIdとuserIdをクエリパラメータで受け取る
+  const deletelikedPost = await prisma.favoritePost.delete({
+    where: {
+      userId_postId: {
+        userId: userId,
+        postId: postId,
+      }
+    }
+  })
+
+  return NextResponse.json(deletelikedPost)
 }
