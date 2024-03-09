@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 
 import { useEffect, useState } from "react";
 import LikeButton from "../like/LikeButton";
+import Link from "next/link";
 
 
 const PostList = () => {
@@ -70,17 +71,19 @@ const PostList = () => {
           </TableHeader>
           <TableBody>
             {posts?.map((post, index) => (
-              <TableRow>
-                <TableCell className="font-medium">{post.id}</TableCell>
-                <TableCell>{post.title}</TableCell>
-                <TableCell>{post.body}</TableCell>
-                <TableCell className="text-center"><span>{post.favoritePosts.length}</span></TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end items-center">
-                    <LikeButton postId={post.id} userId={currentUser.id}/>
-                  </div>
-                </TableCell>
-              </TableRow>
+              <Link href={`posts/${post.id}`} legacyBehavior={true}>
+                <TableRow className="cursor-pointer">
+                  <TableCell className="font-medium">{post.id}</TableCell>
+                  <TableCell>{post.title}</TableCell>
+                  <TableCell>{post.body}</TableCell>
+                  <TableCell className="text-center"><span>{post.favoritePosts.length}</span></TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end items-center">
+                      <LikeButton postId={post.id} userId={currentUser.id}/>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              </Link>
             ))}
           </TableBody>
         </Table>
