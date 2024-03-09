@@ -6,6 +6,7 @@ export async function GET(request:Request) {
     const { searchParams } = new URL(request.url)
     const userEmail = searchParams.get("email") || undefined
 
+    //どの投稿にいいねしているかもいれる
     const user = await prisma.user.findUnique({
       where: {
         email: userEmail

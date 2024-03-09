@@ -16,18 +16,14 @@ import { useSession } from "next-auth/react";
 
 
 import { useEffect, useState } from "react";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import LikeButton from "../like/LikeButton";
+
 
 const PostList = () => {
-  const [isLiked, setIsLiked] = useState(false)
   const [posts, setPosts] = useState<any[]>([])
   const [currentUser, setCurrentUser] = useState<any>({})
 
   const session = useSession()
-  // console.log(session.data?.user);
-  
-  
-  const Icon = isLiked? AiFillHeart : AiOutlineHeart
 
   //投稿を取得
   const getPost = async() => {
@@ -35,6 +31,7 @@ const PostList = () => {
     setPosts([...data])
   }
 
+  //現在のユーザを取得
   const getUser = async() => {
     const params = session.data?.user
     if (params) {
@@ -45,8 +42,6 @@ const PostList = () => {
       
       const res = await fetch(`/api/user/?${queryParams.toString()}`)
       const user = await res.json()
-
-      // console.log(user);
       
       setCurrentUser({...user})
     }
@@ -59,35 +54,6 @@ const PostList = () => {
     }
 
   },[session.status])
-
-  // console.log(currentUser);
-  
-
-  const handleLike = async (postId: string, userId: string) => {
-    const data = {
-      userId: userId,
-      postId: postId
-    }
-
-    // console.log(data);
-    
-
-    if(!isLiked) {
-      const res = await fetch("/api/likes/", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      setIsLiked(true)
-    } else {
-      setIsLiked(false)
-    }
-  }
-
-  console.log(posts);
-  
 
 	return (
 		<div className="max-w-[700px] w-full mx-auto mt-10">
@@ -111,9 +77,7 @@ const PostList = () => {
                 <TableCell className="text-center"><span>{post.favoritePosts.length}</span></TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end items-center">
-                    <button onClick={() => handleLike(post.id, currentUser.id)}>
-                      <Icon  className=" cursor-pointer" color={"#e0215c"} size={25} />
-                    </button>
+                    <LikeButton postId={post.id} userId={currentUser.id}/>
                   </div>
                 </TableCell>
               </TableRow>
