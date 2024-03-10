@@ -64,7 +64,7 @@ const postDetailPage = ({ params }: { params: { slug: string } }) => {
     
   // },[session.status])
 
-  console.log(post);
+  // console.log(post);
   
 	return (
 		<div className="max-w-[700px] w-full mx-auto mt-10">
@@ -81,7 +81,7 @@ const postDetailPage = ({ params }: { params: { slug: string } }) => {
         <CommentList/>
       </div>
       <div>
-        <CommentForm/>
+        <CommentForm postId={post.id} userId={currentUser.id}/>
       </div>
     </div>
 	)

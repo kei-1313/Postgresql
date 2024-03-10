@@ -4,7 +4,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, set, useForm } from "react-hook-form";
 
-const CommentForm = () => {
+interface CommentFormProps {
+  postId: string;
+  userId: string;
+}
+
+const CommentForm:React.FC<CommentFormProps> = ({postId, userId}) => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const {
@@ -12,7 +17,8 @@ const CommentForm = () => {
     handleSubmit,
     formState: {
       errors,
-    }
+    },
+    reset
   } = useForm<FieldValues>(
     {
       defaultValues: {
@@ -21,9 +27,35 @@ const CommentForm = () => {
     }
   )
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    console.log(data);
+    try {
+      const params = {
+        postId,
+        userId
+      }
+  
+      const newComment = {...params, ...data}
+  
+      const res = await fetch("/api/comments/", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newComment)
+      })
+
+      console.log(res);
+      
+      // router.refresh()
+
+      setIsLoading(false);
+      reset()
+    } catch (error) {
+      console.error("An error occurred:", error);
+      // エラー処理をここに書く（例：エラーメッセージをユーザーに表示する）
+    }
+
     
   }
 

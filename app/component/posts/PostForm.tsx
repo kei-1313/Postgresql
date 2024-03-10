@@ -51,7 +51,7 @@ const PostForm = () => {
 
 
 	return (
-		<div className="max-w-[600px] w-full mx-auto mt-[120px]">
+		<div className="max-w-[600px] w-full mx-auto mt-[120px] mb-10">
       <h1 className="text-center mb-10 text-[30px] font-bold">Post</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-8">
