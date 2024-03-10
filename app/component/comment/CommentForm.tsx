@@ -47,7 +47,7 @@ const CommentForm:React.FC<CommentFormProps> = ({postId, userId}) => {
 
       console.log(res);
       
-      // router.refresh()
+      router.refresh()
 
       setIsLoading(false);
       reset()

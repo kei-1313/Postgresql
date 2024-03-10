@@ -8,3 +8,4 @@ export const formatDate = (data) => {
   // テンプレートリテラルを使用してフォーマットされた文字列を返す
   return `${year}/${month}/${day}`;
 }
+
