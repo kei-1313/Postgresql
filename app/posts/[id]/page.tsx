@@ -78,7 +78,7 @@ const postDetailPage = ({ params }: { params: { slug: string } }) => {
       </div>
       <div>
         {/* コメントリスト */}
-        <CommentList/>
+        {post.id && <CommentList postId={post.id}/>}
       </div>
       <div>
         <CommentForm postId={post.id} userId={currentUser.id}/>

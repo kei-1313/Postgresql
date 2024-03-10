@@ -1,6 +1,7 @@
 import prisma from "@/app/libs/prismadb"
 import { NextResponse } from "next/server"
 
+
 export async function GET(request:Request) {
 
   try {
@@ -10,15 +11,18 @@ export async function GET(request:Request) {
     const comment = await prisma.comment.findMany({
       where: {
         postId: postId,
+      },
+      include: {
+        user:true
       }
     })
 
     if(!comment) {
-      return ""
+      return []
     }
 
     return NextResponse.json(comment)
-    
+
   } catch (error) {
     console.error("Faild fetching comment", error);
   }
