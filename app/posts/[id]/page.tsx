@@ -1,5 +1,7 @@
 "use client"
 
+import CommentForm from "@/app/component/comment/CommentForm"
+import CommentList from "@/app/component/comment/CommentList"
 import LikeButton from "@/app/component/like/LikeButton"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
@@ -73,6 +75,13 @@ const postDetailPage = ({ params }: { params: { slug: string } }) => {
           <span className="block ml-2">{likeNumber}</span>
         </span>
         <p className="text-md mt-5">{post.body}</p>
+      </div>
+      <div>
+        {/* コメントリスト */}
+        <CommentList/>
+      </div>
+      <div>
+        <CommentForm/>
       </div>
     </div>
 	)
