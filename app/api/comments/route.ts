@@ -45,3 +45,16 @@ export async function POST(request:Request) {
   return NextResponse.json(data)
 }
 
+export async function DELETE(request:Request) {
+  const { searchParams } = new URL(request.url)
+  const commentId = searchParams.get("commentId") ?? ""
+
+  const deleteComment = await prisma.comment.delete({
+    where: {
+      id: commentId
+    }
+  })
+
+  return NextResponse.json(deleteComment)
+}
+
