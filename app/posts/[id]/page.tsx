@@ -50,21 +50,6 @@ const postDetailPage = ({ params }: { params: { slug: string } }) => {
       getUser()
     }
   },[session.status])
-
-  // useEffect(() => {
-  //   getPostById()
-    
-  // },[])
-
-  // useCallback(() => {
-  //   if (session.status === "authenticated") {
-  //     getUser()
-  //   }
-  //   console.log("ddd");
-    
-  // },[session.status])
-
-  // console.log(post);
   
 	return (
 		<div className="max-w-[700px] w-full mx-auto mt-10">
