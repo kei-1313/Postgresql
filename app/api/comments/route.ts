@@ -45,6 +45,24 @@ export async function POST(request:Request) {
   return NextResponse.json(data)
 }
 
+export async function PUT(request:Request) {
+  const body = await request.json()
+
+  const { comment, commentId } = body
+
+  //データベースへコメントを保存する
+  const data = await prisma.comment.update({
+    where: {
+      id: commentId
+    },
+    data: {
+      comment,
+    }
+  })
+
+  return NextResponse.json(data)
+}
+
 export async function DELETE(request:Request) {
   const { searchParams } = new URL(request.url)
   const commentId = searchParams.get("commentId") ?? ""

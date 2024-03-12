@@ -6,6 +6,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { PiPencilSimple } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { FieldValues, SubmitHandler, set, useForm } from "react-hook-form";
 
 interface CommentListProps {
   postId: string;
@@ -16,6 +17,7 @@ const CommentList:React.FC<CommentListProps> = ({postId, userId}) => {
   const [comment, setComment] = useState<any[]>([])
   const [isEdit, setIsEdit] = useState<any>({})
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
   const getCommentByPostId = async(id: string) => {
     const params = {
       postId: id
@@ -61,7 +63,37 @@ const CommentList:React.FC<CommentListProps> = ({postId, userId}) => {
     getCommentByPostId(postId)
   },[])
 
-  console.log(comment[0]);
+  const {
+    register,
+    handleSubmit,
+    formState: {
+      errors,
+    },
+    reset
+  } = useForm<FieldValues>()
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/comments/", {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) { // HTTPステータスコードが200番台以外の場合、エラーとみなす
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      // 応答を適切に処理する（例：JSONとして解析する、成功メッセージを表示するなど）
+    } catch (error) {
+      console.error("An error occurred:", error);
+      // エラー処理をここに書く（例：エラーメッセージをユーザーに表示する）
+    } finally {
+      setIsLoading(false); // エラーがあってもなくても、ローディング状態を解除
+    }
+  }
 
 	return (
 		<ul className="mt-8">
@@ -83,10 +115,13 @@ const CommentList:React.FC<CommentListProps> = ({postId, userId}) => {
           </div>
           {isEdit[item.id]? 
             (
-              <div className="flex gap-2">
-                <input type="text" value={item.comment}  className="border border-gray-200 rounded-md px-4 py-2 w-full"/>
-                <Button>保存</Button>
-              </div>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex gap-2">
+                  <input type="text" defaultValue={item.comment} {...register("comment", { required: true })}  className="border border-gray-200 rounded-md px-4 py-2 w-full"/>
+                  <input type="text" hidden defaultValue={item.id} {...register("commentId", { required: true })}  className="border border-gray-200 rounded-md px-4 py-2 w-full"/>
+                  <Button type={"submit"}>保存</Button>
+                </div>
+              </form>
             ): (
               <p>{item.comment}</p>
             )}
