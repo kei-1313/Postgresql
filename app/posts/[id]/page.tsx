@@ -3,6 +3,7 @@
 import CommentForm from "@/app/component/comment/CommentForm"
 import CommentList from "@/app/component/comment/CommentList"
 import LikeButton from "@/app/component/like/LikeButton"
+import { error } from "console"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
