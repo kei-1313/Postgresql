@@ -82,16 +82,15 @@ const CommentList:React.FC<CommentListProps> = ({postId, userId}) => {
         },
         body: JSON.stringify(data)
       });
-      if (!res.ok) { // HTTPステータスコードが200番台以外の場合、エラーとみなす
+      if (!res.ok) { 
         throw new Error(`HTTP error! status: ${res.status}`);
       }
 
-      // 応答を適切に処理する（例：JSONとして解析する、成功メッセージを表示するなど）
     } catch (error) {
       console.error("An error occurred:", error);
-      // エラー処理をここに書く（例：エラーメッセージをユーザーに表示する）
+     
     } finally {
-      setIsLoading(false); // エラーがあってもなくても、ローディング状態を解除
+      setIsLoading(false); 
     }
   }
 
